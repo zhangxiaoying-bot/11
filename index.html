@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="劳动最光荣，奋斗最幸福，致敬张桂梅、申纪兰、黄大发、袁隆平等劳动英雄，了解他们的故事，参与五一劳动节倒计时！">
+    <meta name="keywords" content="劳动节, 劳动者, 张桂梅, 申纪兰, 黄大发, 袁隆平, 奋斗">
+    <title>劳动最光荣，奋斗最幸福</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        @font-face {
+            font-family: 'Alibaba';
+            src: url('https://at.alicdn.com/wf/webfont/font.woff2') format('woff2');
+        }
+        body {
+            font-family: 'Alibaba', 'Segoe UI', Arial, sans-serif;
+            background: url('background.jpg') no-repeat center/cover fixed;
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            z-index: -1;
+        }
+        nav {
+            background: #ff6f61;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1em 0;
+        }
+        nav li {
+            margin: 0 1em;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: #ffb347;
+        }
+        header {
+            background: linear-gradient(45deg, #ff6f61, #ffb347);
+            color: white;
+            text-align: center;
+            padding: 3em 1em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+        header p {
+            font-size: 1.2em;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 2em auto;
+            padding: 0 1em;
+        }
+        .countdown {
+            background: white;
+            border-radius: 10px;
+            padding: 2em;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 2em;
+        }
+        .countdown h2 {
+            color: #ff6f61;
+            margin-bottom: 1em;
+        }
+        .countdown #timer {
+            font-size: 1.5em;
+            color: #007bff;
+        }
+        #timer span {
+            display: inline-block;
+            animation: pulse 0.3s ease;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .quote {
+            background: white;
+            border-radius: 10px;
+            padding: 1em;
+            margin: 1em 0;
+            text-align: center;
+            font-style: italic;
+            color: #555;
+        }
+        .stories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2em;
+            margin-bottom: 3em;
+        }
+        .story-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+            animation-delay: calc(0.2s * var(--index));
+        }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .story-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .story-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .story-card h3 {
+            color: #ff6f61;
+            padding: 1em;
+            font-size: 1.5em;
+        }
+        .story-card p {
+            padding: 0 1em 1em;
+            font-size: 1em;
+            color: #555;
+        }
+        .story-card a {
+            display: inline-block;
+            margin: 0 1em 1em;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .story-card a:hover {
+            color: #0056b3;
+        }
+        .story-card iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            margin-bottom: 1em;
+        }
+        .story-actions {
+            padding: 0 1em 1em;
+            text-align: center;
+        }
+        .story-actions button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .story-actions button:hover {
+            background: #0056b3;
+        }
+        .comments {
+            background: white;
+            border-radius: 10px;
+            padding: 2em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 2em;
+        }
+        .comments h2 {
+            color: #ff6f61;
+            margin-bottom: 1em;
+        }
+        .comments textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 1em;
+            resize: vertical;
+        }
+        .comments button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.8em 1.5em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .comments button:hover {
+            background: #0056b3;
+        }
+        .user-comment {
+            border-top: 1px solid #ddd;
+            padding: 1em 0;
+            margin-top: 1em;
+        }
+        .user-comment small {
+            color: #888;
+            font-size: 0.9em;
+        }
+        .poem {
+            background: white;
+            border-radius: 10px;
+            padding: 2em;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 2em;
+        }
+        .poem h2 {
+            color: #ff6f61;
+            margin-bottom: 1em;
+        }
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        footer a {
+            color: #ffb347;
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: #ff6f61;
+        }
+        .decoration {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            z-index: 1000;
+        }
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .stories {
+                grid-template-columns: 1fr;
+            }
+            .countdown #timer {
+                font-size: 1.2em;
+            }
+            nav ul {
+                flex-direction: column;
+            }
+            nav li {
+                margin: 0.5em 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#header">首页</a></li>
+            <li><a href="#stories">劳动者故事</a></li>
+            <li><a href="#comments">留言区</a></li>
+            <li><a href="#footer">关于</a></li>
+        </ul>
+    </nav>
+    <header id="header">
+        <h1>劳动最光荣，奋斗最幸福</h1>
+        <p>向每一位用劳动书写人生的英雄致敬！</p>
+    </header>
+    <div class="decoration">
+        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#ff6f61"/>
+        </svg>
+    </div>
+    <div class="container">
+        <section class="countdown">
+            <h2>距离五一劳动节还有</h2>
+            <div id="timer"></div>
+        </section>
+        <div class="quote">
+            <p id="daily-quote"></p>
+        </div>
+        <section class="stories" id="stories">
+            <div class="story-card" style="--index: 1;">
+                <img src="story1.jpg" alt="张桂梅" loading="lazy">
+                <h3>张桂梅：点亮大山女孩梦想</h3>
+                <p>张桂梅，云南华坪女子高中校长，创建中国首所免费女子高中，帮助1800多名贫困女孩考上大学，改变命运。她用教育点亮希望，用劳动书写大爱。</p>
+                <a href="https://zh.wikipedia.org/wiki/张桂梅" target="_blank">了解更多</a>
+                <iframe src="https://player.bilibili.com/player.html?bvid=7tQakTg" allowfullscreen></iframe>
+                <div class="story-actions">
+                    <button onclick="like(this)" aria-label="点赞张桂梅的故事">点赞 <span>0</span></button>
+                </div>
+            </div>
+            <div class="story-card" style="--index: 2;">
+                <img src="story2.jpg" alt="申纪兰" loading="lazy">
+                <h3>申纪兰：劳动就是解放</h3>
+                <p>申纪兰，共和国勋章获得者，倡导“男女同工同酬”写入宪法。80多岁仍坚持栽树，用一生劳动为太行山添绿，为平等奋斗。</p>
+                <a href="https://www.12371.cn/2020/07/04/ARTI1593832975956959.shtml" target="_blank">了解更多</a>
+                <iframe src="https://player.bilibili.com/player.html?bvid=Btwrf8A" allowfullscreen></iframe>
+                <div class="story-actions">
+                    <button onclick="like(this)" aria-label="点赞申纪兰的故事">点赞 <span>0</span></button>
+                </div>
+            </div>
+            <div class="story-card" style="--index: 3;">
+                <img src="story3.jpg" alt="黄大发" loading="lazy">
+                <h3>黄大发：愚公移山修渠人</h3>
+                <p>黄大发，贵州“当代愚公”，带领村民36年凿通“生命渠”，解决缺水困境。他用劳动改变家乡，诠释奋斗的意义。</p>
+                <a href="https://www.gzgov.gov.cn/xwdt/zwyw/202309/t20230907_82047442.html" target="_blank">了解更多</a>
+                <iframe src="https://player.bilibili.com/player.html?bvid=vhuMAg7" allowfullscreen></iframe>
+                <div class="story-actions">
+                    <button onclick="like(this)" aria-label="点赞黄大发的故事">点赞 <span>0</span></button>
+                </div>
+            </div>
+            <div class="story-card" style="--index: 4;">
+                <img src="story4.jpg" alt="袁隆平" loading="lazy">
+                <h3>袁隆平：杂交水稻之父</h3>
+                <p>袁隆平，中国工程院院士，被誉为“杂交水稻之父”。他研发的杂交水稻技术大幅提高粮食产量，为解决世界饥饿问题作出巨大贡献，用劳动书写传奇。</p>
+                <a href="https://zh.wikipedia.org/wiki/袁隆平" target="_blank">了解更多</a>
+                <iframe src="https://player.bilibili.com/player.html?bvid=example" allowfullscreen></iframe>
+                <div class="story-actions">
+                    <button onclick="like(this)" aria-label="点赞袁隆平的故事">点赞 <span>0</span></button>
+                </div>
+            </div>
+        </section>
+        <section class="comments" id="comments">
+            <h2>留言区：分享你的劳动故事</h2>
+            <form>
+                <textarea placeholder="分享你对劳动的感悟或自己的奋斗故事..." required></textarea>
+                <button type="submit" aria-label="提交留言">提交留言</button>
+            </form>
+        </section>
+        <section class="poem">
+            <h2>劳动赞歌</h2>
+            <p>锄禾日当午，汗滴禾下土。<br>谁知盘中餐，粒粒皆辛苦。</p>
+            <p>——《悯农》李绅</p>
+        </section>
+    </div>
+    <footer id="footer">
+        <p>© 2025 劳动最光荣，奋斗最幸福 | 致敬每一位奋斗者</p>
+        <p>关注我们：<a href="#">微信</a> | <a href="#">微博</a></p>
+    </footer>
+    <script>
+        // 五一劳动节倒计时
+        function countdown() {
+            const laborDay = new Date('May 1, 2025 00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = laborDay - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').innerHTML = 
+                `<span>${days}</span>天 <span>${hours}</span>小时 <span>${minutes}</span>分钟 <span>${seconds}</span>秒`;
+
+            if (distance < 0) {
+                document.getElementById('timer').innerHTML = '五一劳动节已到来！';
+            }
+        }
+        setInterval(countdown, 1000);
+
+        // 每日语录
+        const quotes = [
+            '劳动是幸福之源——张桂梅',
+            '劳动创造美好生活——申纪兰',
+            '用劳动改变命运——黄大发',
+            '我毕生追求就是让大家吃饱饭——袁隆平'
+        ];
+        document.getElementById('daily-quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+        // 留言展示
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const textarea = document.querySelector('textarea');
+            const comment = textarea.value;
+            if (comment) {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = 'user-comment';
+                commentDiv.innerHTML = `<p>${comment}</p><small>发布于 ${new Date().toLocaleString()}</small>`;
+                document.querySelector('.comments').appendChild(commentDiv);
+                textarea.value = '';
+            }
+        });
+
+        // 点赞功能
+        function like(button) {
+            const span = button.querySelector('span');
+            let count = parseInt(span.textContent);
+            span.textContent = count + 1;
+        }
+
+        // 五一祝福弹窗
+        const today = new Date();
+        if (today.getMonth() === 4 && today.getDate() === 1) {
+            alert('五一劳动节快乐！向每一位奋斗者致敬！');
+        }
+    </script>
+</body>
+</html>
